@@ -9,7 +9,7 @@ export default function Onboarding1({ navigation }) {
         <Text style={styles.title}>Your heart beats over {"\n"} 100,000 times a day</Text>
 
       <Image
-        source={require('../assets/heart.png')} // replace with your image
+        source={require('../assets/heart.png')}
         style={styles.image}
       />
 

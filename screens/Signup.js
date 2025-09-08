@@ -78,7 +78,7 @@ export default function Signup({ navigation }) {
         <Image source={require('../assets/eye.png')} style={styles.dropdownIcon} />
       </View>
 
-      <TouchableOpacity style={styles.signUpBtn}>
+      <TouchableOpacity style={styles.signUpBtn} onPress={() => navigation.navigate('CodeVerification')}>
         <Text style={styles.signUpText}>Sign up</Text>
       </TouchableOpacity>
     </ScrollView>

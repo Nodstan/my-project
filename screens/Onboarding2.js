@@ -9,7 +9,7 @@ export default function Onboarding2({ navigation }) {
         <Text style={styles.title}>Your brain pulls {"\n"} all-nighters</Text>
 
       <Image
-        source={require('../assets/brain.png')} // replace with your image
+        source={require('../assets/brain.png')}
         style={styles.image}
       />
 

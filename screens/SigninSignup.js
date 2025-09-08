@@ -8,7 +8,6 @@ export default function SigninSignup({ navigation }) {
         <Text style={styles.brand}>MedTales</Text>, where medicine{'\n'}meets imagination
       </Text>
 
-      {/* Social sign-up buttons */}
       <TouchableOpacity style={styles.socialButton}>
         <Image source={require('../assets/google.png')} style={styles.socialIcon} />
         <Text style={styles.socialText}>Sign up with Google</Text>
@@ -24,12 +23,10 @@ export default function SigninSignup({ navigation }) {
         <Text style={styles.socialText}>Sign up with Apple</Text>
       </TouchableOpacity>
 
-      {/* Sign up button */}
       <TouchableOpacity style={styles.signUpBtn} onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.signUpText}>Sign up</Text>
       </TouchableOpacity>
 
-      {/* Bottom link */}
       <Text style={styles.bottomText}>
         You’ve been here before? 🫣{' '}
         <Text
@@ -46,7 +43,7 @@ export default function SigninSignup({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E6F0FA', // light blue background
+    backgroundColor: '#E6F0FA',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -59,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   brand: {
-    color: '#28A745', // MedTales green
+    color: '#28A745',
     fontWeight: '700',
   },
   socialButton: {

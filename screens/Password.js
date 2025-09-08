@@ -1,64 +1,70 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 
-export default function Signin({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+export default function Password({ navigation }) {
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   return (
-    <ScrollView style={styles.container}>
-
+    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+      
       <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
         <Image source={require('../assets/chevron-left.png')} style={styles.backIcon} />
       </TouchableOpacity>
 
-      <Text style={styles.title}>
-        Welcome back to {"\n"} <Text style={styles.brand}>MedTales!</Text>
-      </Text>
+      <Text style={styles.title}>Reset Password</Text>
+
       <Text style={styles.subtitle}>
-        Sign in to keep exploring the {"\n"} magic of medicine.
+        Reset it, remember it, and {"\n"} return to the tales.
       </Text>
 
       <View style={styles.inputWrapper}>
-        <Image source={require('../assets/mail.png')} style={styles.inputIcon} />
+        <Image source={require('../assets/lock.png')} style={styles.inputIcon} />
         <TextInput
-          placeholder="Enter your email"
-          value={email}
-          onChangeText={setEmail}
+          placeholder="Old password"
+          value={oldPassword}
+          onChangeText={setOldPassword}
+          secureTextEntry={!showOldPassword}
           style={styles.input}
-          keyboardType="email-address"
         />
+        <TouchableOpacity onPress={() => setShowOldPassword(!showOldPassword)}>
+          <Image
+            source={
+              showOldPassword
+                ? require('../assets/eye.png')
+                : require('../assets/eyes.png')
+            }
+            style={styles.dropdownIcon}
+          />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.inputWrapper}>
         <Image source={require('../assets/lock.png')} style={styles.inputIcon} />
         <TextInput
-          placeholder="Enter password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
+          placeholder="New password"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          secureTextEntry={!showNewPassword}
           style={styles.input}
         />
-        <Image source={require('../assets/eye.png')} style={styles.dropdownIcon} />
+        <TouchableOpacity onPress={() => setShowNewPassword(!showNewPassword)}>
+          <Image
+            source={
+              showNewPassword
+                ? require('../assets/eye.png')
+                : require('../assets/eyes.png')
+            }
+            style={styles.dropdownIcon}
+          />
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity 
-  style={styles.signUpBtn} 
-  onPress={() => navigation.navigate('CodeVerification')}
->
-  <Text style={styles.signUpText}>Sign in</Text>
-</TouchableOpacity>
-
-
-      <Text style={styles.bottomText}>
-              Forgot password? 🫣{' '}
-              <Text
-                style={styles.signInLink}
-                onPress={() => navigation.navigate('FaceId')}
-              >
-                Click here!
-              </Text>
-            </Text>
+      <TouchableOpacity style={styles.signUpBtn} onPress={() => alert('Password Changed')}>
+        <Text style={styles.signUpText}>Change Password</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -80,24 +86,19 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: 15,
     color: '#143664',
-    gap: 5,
     lineHeight: 28,
-  },
-  brand: {
-    color: '#28A745',
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
     color: '#7D7D7D',
     marginBottom: 30,
-    gap: 5,
-    lineHeight: 20,
+    lineHeight: 22,
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -122,10 +123,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   dropdownIcon: {
-    width: 18,
-    height: 18,
+    width: 20,
+    height: 20,
     resizeMode: 'contain',
-    Color: '#2F80ED',
+    tintColor: '#2F80ED',
   },
   signUpBtn: {
     backgroundColor: '#28A745',
@@ -137,16 +138,6 @@ const styles = StyleSheet.create({
   signUpText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
-  },
-  bottomText: {
-    marginTop: 15,
-    fontSize: 14,
-    color: '#000',
-    textAlign: 'center',
-  },
-  signInLink: {
-    color: '#28A745',
     fontWeight: '600',
   },
 });
