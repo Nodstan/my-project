@@ -74,7 +74,10 @@ export default function Home() {
                   Let’s turn science{'\n'}into stories today.
                 </Text>
 
-                <TouchableOpacity style={styles.exploreBtn}>
+                <TouchableOpacity 
+                  style={styles.exploreBtn}
+                  onPress={() => navigation.navigate("Topics", { screen: "TopicsList" })}
+                >
                   <Text style={styles.exploreText}>Explore</Text>
                 </TouchableOpacity>
               </View>
@@ -90,10 +93,14 @@ export default function Home() {
         <View style={styles.categories}>
           <TouchableOpacity
             style={[styles.categoryBtn, { backgroundColor: '#00A86B' }]}
+            onPress={() => navigation.navigate("Topics", { screen: "TopicDetails", params: { topicId: "cardiac-cycle" } })}
           >
             <Text style={styles.categoryText}>Cardiovascular</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryBtn}>
+          <TouchableOpacity 
+            style={styles.categoryBtn}
+            onPress={() => navigation.navigate("Topics", { screen: "TopicsList" })}
+          >
             <Text style={styles.categoryText}>Respiratory</Text>
           </TouchableOpacity>
         </View>

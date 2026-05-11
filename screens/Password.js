@@ -1,17 +1,51 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Alert,
+} from "react-native";
 
 export default function Password({ navigation }) {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
+  const API_URL = "http://localhost:5000/reset-password";
+
+  const handlePasswordChange = async () => {
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ oldPassword, newPassword }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        Alert.alert("Success", data.message);
+        setOldPassword("");
+        setNewPassword("");
+        navigation.goBack();
+      } else {
+        Alert.alert("Error", data.message || "Password change failed");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Something went wrong. Try again.");
+    }
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
-      
       <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-        <Image source={require('../assets/chevron-left.png')} style={styles.backIcon} />
+        <Image source={require("../assets/chevron-left.png")} style={styles.backIcon} />
       </TouchableOpacity>
 
       <Text style={styles.title}>Reset Password</Text>
@@ -20,8 +54,9 @@ export default function Password({ navigation }) {
         Reset it, remember it, and {"\n"} return to the tales.
       </Text>
 
+      {/* Old Password */}
       <View style={styles.inputWrapper}>
-        <Image source={require('../assets/lock.png')} style={styles.inputIcon} />
+        <Image source={require("../assets/lock.png")} style={styles.inputIcon} />
         <TextInput
           placeholder="Old password"
           value={oldPassword}
@@ -33,16 +68,17 @@ export default function Password({ navigation }) {
           <Image
             source={
               showOldPassword
-                ? require('../assets/eye.png')
-                : require('../assets/eyes.png')
+                ? require("../assets/eye.png")
+                : require("../assets/eyes.png")
             }
             style={styles.dropdownIcon}
           />
         </TouchableOpacity>
       </View>
 
+      {/* New Password */}
       <View style={styles.inputWrapper}>
-        <Image source={require('../assets/lock.png')} style={styles.inputIcon} />
+        <Image source={require("../assets/lock.png")} style={styles.inputIcon} />
         <TextInput
           placeholder="New password"
           value={newPassword}
@@ -54,15 +90,16 @@ export default function Password({ navigation }) {
           <Image
             source={
               showNewPassword
-                ? require('../assets/eye.png')
-                : require('../assets/eyes.png')
+                ? require("../assets/eye.png")
+                : require("../assets/eyes.png")
             }
             style={styles.dropdownIcon}
           />
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.signUpBtn} onPress={() => alert('Password Changed')}>
+      {/* Button */}
+      <TouchableOpacity style={styles.signUpBtn} onPress={handlePasswordChange}>
         <Text style={styles.signUpText}>Change Password</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -71,7 +108,7 @@ export default function Password({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 20,
     paddingTop: 70,
     paddingBottom: 30,
@@ -83,39 +120,39 @@ const styles = StyleSheet.create({
   backIcon: {
     width: 24,
     height: 24,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   title: {
     fontSize: 22,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     marginBottom: 15,
-    color: '#143664',
+    color: "#143664",
     lineHeight: 28,
   },
   subtitle: {
     fontSize: 16,
-    textAlign: 'center',
-    color: '#7D7D7D',
+    textAlign: "center",
+    color: "#7D7D7D",
     marginBottom: 30,
     lineHeight: 22,
   },
   inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#B0C4DE',
+    borderColor: "#B0C4DE",
     borderRadius: 30,
     paddingHorizontal: 25,
     paddingVertical: 7,
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   inputIcon: {
     width: 20,
     height: 20,
     marginRight: 10,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   input: {
     flex: 1,
@@ -125,19 +162,19 @@ const styles = StyleSheet.create({
   dropdownIcon: {
     width: 20,
     height: 20,
-    resizeMode: 'contain',
-    tintColor: '#2F80ED',
+    resizeMode: "contain",
+    tintColor: "#2F80ED",
   },
   signUpBtn: {
-    backgroundColor: '#28A745',
+    backgroundColor: "#28A745",
     paddingVertical: 15,
     borderRadius: 30,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
   },
   signUpText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });

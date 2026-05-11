@@ -29,7 +29,7 @@ export default function Questions2({ navigation }) {
       >
 
         <View style={styles.topBar}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("MainTabs", { screen: "Quiz" })}>
             <Text style={styles.endTest}>End test</Text>
           </TouchableOpacity>
           <Text style={styles.timer}>06:23</Text>

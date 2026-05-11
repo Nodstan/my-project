@@ -8,17 +8,17 @@ export default function SigninSignup({ navigation }) {
         <Text style={styles.brand}>MedTales</Text>, where medicine{'\n'}meets imagination
       </Text>
 
-      <TouchableOpacity style={styles.socialButton}>
+      <TouchableOpacity style={styles.socialButton} onPress={() => navigation.navigate("MainTabs")}>
         <Image source={require('../assets/google.png')} style={styles.socialIcon} />
         <Text style={styles.socialText}>Sign up with Google</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.socialButton}>
+      <TouchableOpacity style={styles.socialButton} onPress={() => navigation.navigate("MainTabs")}>
         <Image source={require('../assets/facebook.png')} style={styles.socialIcon} />
         <Text style={styles.socialText}>Sign up with Facebook</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.socialButton}>
+      <TouchableOpacity style={styles.socialButton} onPress={() => navigation.navigate("MainTabs")}>
         <Image source={require('../assets/apple.png')} style={styles.socialIcon} />
         <Text style={styles.socialText}>Sign up with Apple</Text>
       </TouchableOpacity>

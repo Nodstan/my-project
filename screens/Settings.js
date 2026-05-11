@@ -38,7 +38,7 @@ export default function Settings() {
               <Text style={styles.sectionTitle}>General settings</Text>
             </View>
 
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={() => alert('Coming soon')}>
               <Text style={styles.label}>Font size</Text>
               <View style={styles.optionBox}>
                 <Text style={styles.optionText}>Default</Text>
@@ -46,7 +46,7 @@ export default function Settings() {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={() => alert('Coming soon')}>
               <Text style={styles.label}>Language</Text>
               <View style={styles.optionBox}>
                 <Text style={styles.optionText}>English</Text>
@@ -98,7 +98,7 @@ export default function Settings() {
               />
             </View>
 
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={() => alert('Coming soon')}>
               <Text style={styles.label}>Set reminder</Text>
               <View style={styles.optionBox}>
                 <Text style={styles.optionText}>9:00AM</Text>
@@ -134,6 +134,19 @@ export default function Settings() {
             >
               <Text style={styles.label}>Change password</Text>
               <Ionicons name="chevron-forward" size={18} color="#1C274C" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "SigninSignup" }],
+                });
+              }}
+            >
+              <Text style={[styles.label, { color: "#FF3B30" }]}>Log Out</Text>
+              <Ionicons name="log-out-outline" size={18} color="#FF3B30" />
             </TouchableOpacity>
           </View>
         </View>

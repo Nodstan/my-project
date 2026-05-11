@@ -10,6 +10,7 @@ import {
   Easing
 } from "react-native";
 import { BlurView } from "expo-blur";
+import { useNavigation } from "@react-navigation/native";
 
 const sampleData = [
   { id: "1", text: "New story under Nervous system!" },
@@ -22,6 +23,7 @@ const sampleData = [
 export default function Notifications({ visible, onClose }) {
   const [expanded, setExpanded] = useState(false);
   const animatedHeight = useRef(new Animated.Value(300)).current;
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (!visible) {
@@ -70,7 +72,7 @@ export default function Notifications({ visible, onClose }) {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.text}>{item.text}</Text>
-                  <TouchableOpacity style={styles.checkBtn}>
+                  <TouchableOpacity style={styles.checkBtn} onPress={() => { onClose(); navigation.navigate("Topics", { screen: "TopicsList" }); }}>
                     <Text style={styles.checkText}>Check it out</Text>
                   </TouchableOpacity>
                 </View>

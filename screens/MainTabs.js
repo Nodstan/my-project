@@ -1,19 +1,15 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Image, Text, View } from "react-native";
-
-import Home from "./Home";
-import Topics from "./Topics";
-import TopicDetails from "./TopicDetails";
-import Quiz from "./Quiz";
-import Questions2 from "./Questions2";
-import Results from "./Results";
-import Settings from "./Settings";
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Image, Text, View } from 'react-native';
+import Home from './Home';
+import Topics from './Topics';
+import TopicDetails from './TopicDetails';
+import Quiz from './Quiz';
+import Settings from './Settings';
 
 const Tab = createBottomTabNavigator();
 const TopicsStack = createNativeStackNavigator();
-const QuizStack = createNativeStackNavigator();
 
 function TopicsStackScreen() {
   return (
@@ -24,32 +20,22 @@ function TopicsStackScreen() {
   );
 }
 
-function QuizStackScreen() {
-  return (
-    <QuizStack.Navigator screenOptions={{ headerShown: false }}>
-      <QuizStack.Screen name="QuizHome" component={Quiz} />
-      <QuizStack.Screen name="Questions2" component={Questions2} />
-      <QuizStack.Screen name="Results" component={Results} />
-    </QuizStack.Navigator>
-  );
-}
-
 function TabIcon({ focused, activeIcon, inactiveIcon, label }) {
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       {focused ? (
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#E9F7EF",
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#E9F7EF',
             borderRadius: 20,
             paddingHorizontal: 14,
             paddingVertical: 6,
@@ -64,8 +50,8 @@ function TabIcon({ focused, activeIcon, inactiveIcon, label }) {
           <Text
             style={{
               fontSize: 14,
-              color: "#00A86B",
-              fontWeight: "600",
+              color: '#00A86B',
+              fontWeight: '600',
             }}
           >
             {label}
@@ -74,7 +60,7 @@ function TabIcon({ focused, activeIcon, inactiveIcon, label }) {
       ) : (
         <Image
           source={inactiveIcon}
-          style={{ width: 22, height: 22, tintColor: "#999" }}
+          style={{ width: 22, height: 22, tintColor: '#999' }}
           resizeMode="contain"
         />
       )}
@@ -89,7 +75,7 @@ export default function MainTabs() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#fff",
+          backgroundColor: '#fff',
           borderTopWidth: 0,
           height: 65,
           elevation: 5,
@@ -98,12 +84,11 @@ export default function MainTabs() {
           paddingBottom: 8,
         },
         tabBarItemStyle: {
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
         },
       }}
     >
-
       <Tab.Screen
         name="Home"
         component={Home}
@@ -111,8 +96,8 @@ export default function MainTabs() {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              activeIcon={require("../assets/home-active.png")}
-              inactiveIcon={require("../assets/home.png")}
+              activeIcon={require('../assets/home-active.png')}
+              inactiveIcon={require('../assets/home.png')}
               label="Home"
             />
           ),
@@ -120,14 +105,14 @@ export default function MainTabs() {
       />
 
       <Tab.Screen
-        name="TopicsTab"
+        name="Topics"
         component={TopicsStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              activeIcon={require("../assets/topics-active.png")}
-              inactiveIcon={require("../assets/topics.png")}
+              activeIcon={require('../assets/topics-active.png')}
+              inactiveIcon={require('../assets/topics.png')}
               label="Topics"
             />
           ),
@@ -135,14 +120,14 @@ export default function MainTabs() {
       />
 
       <Tab.Screen
-        name="QuizTab"
-        component={QuizStackScreen}
+        name="Quiz"
+        component={Quiz}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              activeIcon={require("../assets/quiz-active.png")}
-              inactiveIcon={require("../assets/quiz.png")}
+              activeIcon={require('../assets/quiz-active.png')}
+              inactiveIcon={require('../assets/quiz.png')}
               label="Quiz"
             />
           ),
@@ -156,8 +141,8 @@ export default function MainTabs() {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              activeIcon={require("../assets/settings-active.png")}
-              inactiveIcon={require("../assets/settings.png")}
+              activeIcon={require('../assets/settings-active.png')}
+              inactiveIcon={require('../assets/settings.png')}
               label="Settings"
             />
           ),

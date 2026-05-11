@@ -1,38 +1,79 @@
-// App.js
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SplashScreen from './screens/SplashScreen';
-import Onboarding1 from './screens/Onboarding1';
-import Onboarding2 from './screens/Onboarding2';
-import Onboarding3 from './screens/Onboarding3';
-import Onboarding4 from './screens/Onboarding4';
-import SigninSignup from './screens/SigninSignup';
-import Signup from './screens/Signup';
-import Signin from './screens/Signin';
-import CodeVerification from './screens/CodeVerification';
-import FaceId from './screens/FaceId';
-import Fingerprint from './screens/Fingerprint';
-import MainTabs from './screens/MainTabs';
-import Profile from './screens/Profile';
-import Password from './screens/Password';
-import SubTopic from './screens/SubTopic';
-import QuizSetup from './screens/QuizSetup';
-import Questions from './screens/Questions';
-import Results from './screens/Results';
-import Questions2 from './screens/Questions2';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SplashScreen from "./screens/SplashScreen";
+import Onboarding from "./screens/Onboarding";
+import Onboarding1 from "./screens/Onboarding1";
+import Onboarding2 from "./screens/Onboarding2";
+import Onboarding3 from "./screens/Onboarding3";
+import Onboarding4 from "./screens/Onboarding4";
+import SigninSignup from "./screens/SigninSignup";
+import Signup from "./screens/Signup";
+import Signin from "./screens/Signin";
+import CodeVerification from "./screens/CodeVerification";
+import FaceId from "./screens/FaceId";
+import Fingerprint from "./screens/Fingerprint";
+import MainTabs from "./screens/MainTabs";
+import Profile from "./screens/Profile";
+import Password from "./screens/Password";
+import SubTopic from "./screens/SubTopic";
+import QuizSetup from "./screens/QuizSetup";
+import Questions from "./screens/Questions";
+import Results from "./screens/Results";
+import Questions2 from "./screens/Questions2";
 
+const linking = {
+  prefixes: ["medtales://", "http://localhost:8081"],
+  config: {
+    screens: {
+      Splash: "",
+      Onboarding: "onboarding-carousel",
+      Onboarding1: "onboarding",
+      Onboarding2: "onboarding/2",
+      Onboarding3: "onboarding/3",
+      Onboarding4: "onboarding/4",
+      SigninSignup: "auth",
+      Signup: "signup",
+      Signin: "signin",
+      CodeVerification: "verify",
+      FaceId: "auth/faceid",
+      Fingerprint: "auth/fingerprint",
+      Profile: "profile",
+      Password: "password",
+      SubTopic: "subtopic",
+      QuizSetup: "quiz/setup",
+      Questions: "quiz/questions",
+      Questions2: "quiz/questions-2",
+      Results: "quiz/results",
+      MainTabs: {
+        screens: {
+          Home: "home",
+          Topics: {
+            screens: {
+              TopicsList: "topics",
+              TopicDetails: "topics/:topicId",
+            },
+          },
+          Quiz: "quiz",
+          Settings: "settings",
+        },
+      },
+    },
+  },
+};
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
+        initialRouteName="Splash"
         screenOptions={{
           headerShown: false
         }}
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Onboarding1" component={Onboarding1} />
         <Stack.Screen name="Onboarding2" component={Onboarding2} />
         <Stack.Screen name="Onboarding3" component={Onboarding3} />

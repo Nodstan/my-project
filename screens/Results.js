@@ -55,14 +55,14 @@ export default function Results({ navigation }) {
 
         <TouchableOpacity
           style={styles.primaryBtn}
-          onPress={() => alert("Check answers pressed")}
+          onPress={() => navigation.navigate("Questions2")}
         >
           <Text style={styles.primaryText}>Check answers</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.secondaryBtn}
-          onPress={() => navigation.navigate("QuizHome")}
+          onPress={() => navigation.navigate("MainTabs", { screen: "Quiz" })}
         >
           <Text style={styles.secondaryText}>Try another category</Text>
         </TouchableOpacity>

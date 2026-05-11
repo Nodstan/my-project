@@ -22,11 +22,11 @@ export default function Fingerprint({ navigation }) {
         style={styles.fpIcon}
       />
 
-      <TouchableOpacity style={styles.enableBtn}>
+      <TouchableOpacity style={styles.enableBtn} onPress={() => navigation.navigate('MainTabs')}>
         <Text style={styles.enableBtnText}>Enable Fingerprint</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('MainTabs')}>
         <Text style={styles.noThanks}>No thanks</Text>
       </TouchableOpacity>
     </View>

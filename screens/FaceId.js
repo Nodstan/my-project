@@ -20,11 +20,11 @@ export default function FaceId({ navigation }) {
         style={styles.faceIcon}
       />
 
-      <TouchableOpacity style={styles.enableBtn}>
+      <TouchableOpacity style={styles.enableBtn} onPress={() => navigation.navigate('MainTabs')}>
         <Text style={styles.enableBtnText}>Enable Face ID</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('MainTabs')}>
         <Text style={styles.noThanks}>No thanks</Text>
       </TouchableOpacity>
     </View>

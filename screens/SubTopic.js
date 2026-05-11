@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -7,136 +7,371 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  TextInput,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SubTopic() {
   const navigation = useNavigation();
-  const [selected, setSelected] = useState("Brain and Spinal Cord");
+  const route = useRoute();
 
-  const topics = [
-    { key: "Foundations" },
-    { key: "Brain and Spinal Cord" },
-    { key: "PNS and Automatic Nervous System" },
-    { key: "Neurophysiology and Biochemistry" },
-    { key: "Clinical Neurology" },
-    { key: "Advanced Neuroscience" },
+  const mainTopicRaw = route.params?.topic || "Nervous";
+  const mainTopic = useMemo(() => {
+    const trimmed = String(mainTopicRaw || "").trim();
+    if (!trimmed) return "Nervous system";
+    if (trimmed.toLowerCase().includes("system")) return trimmed;
+    return `${trimmed} system`;
+  }, [mainTopicRaw]);
+
+  const subTopics = useMemo(() => {
+    const key = String(mainTopicRaw || "").toLowerCase();
+    if (key.includes("nervous")) {
+      return [
+        "Foundations",
+        "Brain and Spinal Cord",
+        "PNS and Autonomic Nervous System",
+        "Neurophysiology and Biochemistry",
+        "Clinical Neurology",
+        "Advanced Neuroscience",
+      ];
+    }
+
+    return ["Foundations", "Core Concepts", "Clinical", "Advanced"];
+  }, [mainTopicRaw]);
+
+  const [step, setStep] = useState("subtopics");
+  const [selectedSubTopic, setSelectedSubTopic] = useState(subTopics[0]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const stories = [
+    {
+      id: "cardiac-cycle",
+      title: "The House with Four Doors",
+      description: "Once upon a time in the center of the body stood...",
+      tag: "Cardiac Cycle",
+      image: require("../assets/heartss.png"),
+    },
+    {
+      id: "cardiac-cycle-2",
+      title: "The House with Four Doors",
+      description: "Once upon a time in the center of the body stood...",
+      tag: "Cardiac Cycle",
+      image: require("../assets/heartss.png"),
+    },
+    {
+      id: "cardiac-cycle-3",
+      title: "The House with Four Doors",
+      description: "Once upon a time in the center of the body stood...",
+      tag: "Cardiac Cycle",
+      image: require("../assets/heartss.png"),
+    },
+    {
+      id: "cardiac-cycle-4",
+      title: "The House with Four Doors",
+      description: "Once upon a time in the center of the body stood...",
+      tag: "Cardiac Cycle",
+      image: require("../assets/heartss.png"),
+    },
   ];
 
+  const filteredStories = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return stories;
+    return stories.filter((s) => {
+      const haystack = `${s.title} ${s.description} ${s.tag}`.toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [searchQuery, stories]);
+
+  const handleBack = () => {
+    if (step === "stories") {
+      setStep("subtopics");
+      return;
+    }
+    navigation.goBack();
+  };
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+    <SafeAreaView style={styles.safeArea}>
+      {step === "subtopics" ? (
+        <View style={styles.subtopicsWrap}>
+          <View style={styles.topHeader}>
+            <TouchableOpacity style={styles.backBtn} onPress={handleBack}>
+              <Ionicons name="chevron-back" size={24} color="#143664" />
+            </TouchableOpacity>
+            <View style={{ width: 24 }} />
+          </View>
 
-      <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-        <Image
-          source={require("../assets/chevron-left.png")}
-          style={styles.backIcon}
-        />
-      </TouchableOpacity>
+          <Text style={styles.pickTitle}>Choose Sub - topic</Text>
+          <Text style={styles.pickSubtitle}>
+            Let’s get specific. Choose what{"\n"}part you want to explore.
+          </Text>
 
-      <Text style={styles.title}>Choose sub-topic</Text>
+          <View style={styles.chipsWrap}>
+            {subTopics.map((label) => {
+              const active = selectedSubTopic === label;
+              return (
+                <TouchableOpacity
+                  key={label}
+                  style={[styles.chip, active && styles.chipActive]}
+                  onPress={() => setSelectedSubTopic(label)}
+                >
+                  <Text style={[styles.chipText, active && styles.chipTextActive]}>
+                    {label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
 
-      <Text style={styles.subtitle}>
-        Let's get specific. Choose what{"\n"}part you want to explore.
-      </Text>
-
-      <View style={styles.topicGrid}>
-        {topics.map((item) => (
           <TouchableOpacity
-            key={item.key}
-            style={[
-              styles.topicButton,
-              selected === item.key && styles.topicButtonSelected,
-            ]}
-            onPress={() => setSelected(item.key)}
+            style={styles.continueButton}
+            onPress={() => setStep("stories")}
           >
-            <Text
-              style={[
-                styles.topicText,
-                selected === item.key && styles.topicTextSelected,
-              ]}
-            >
-              {item.key}
-            </Text>
+            <Text style={styles.continueText}>Continue</Text>
           </TouchableOpacity>
-        ))}
-      </View>
+        </View>
+      ) : (
+        <View style={{ flex: 1 }}>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.backBtn} onPress={handleBack}>
+              <Ionicons name="chevron-back" size={24} color="#143664" />
+            </TouchableOpacity>
+            <Text style={styles.title}>{mainTopic}</Text>
+            <View style={{ width: 24 }} />
+          </View>
 
-      <TouchableOpacity style={styles.continueButton}>
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
-    </ScrollView>
+          <View style={styles.searchContainer}>
+            <Ionicons
+              name="search-outline"
+              size={20}
+              color="#888"
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search topics"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholderTextColor="#888"
+            />
+          </View>
+
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.gridContainer}>
+              {filteredStories.map((story) => (
+                <View key={story.id} style={styles.card}>
+                  <Image source={story.image} style={styles.cardImage} />
+
+                  <View style={styles.cardContent}>
+                    <Text style={styles.cardTitle} numberOfLines={2}>
+                      {story.title}
+                    </Text>
+                    <Text style={styles.cardDesc} numberOfLines={2}>
+                      {story.description}
+                    </Text>
+
+                    <View style={styles.tagContainer}>
+                      <Text style={styles.tagText}>{story.tag}</Text>
+                    </View>
+
+                    <TouchableOpacity
+                      style={styles.readBtn}
+                      onPress={() =>
+                        navigation.navigate("MainTabs", {
+                          screen: "Topics",
+                          params: {
+                            screen: "TopicDetails",
+                            params: { topicId: story.id },
+                          },
+                        })
+                      }
+                    >
+                      <Text style={styles.readText}>Read</Text>
+                      <Ionicons name="arrow-forward" size={16} color="#143664" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      )}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
+    flex: 1,
     backgroundColor: "#fff",
+  },
+  subtopicsWrap: {
+    flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 70,
+    paddingTop: 40,
     paddingBottom: 30,
-    flexGrow: 1,
+  },
+  topHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   backBtn: {
-    marginBottom: 30,
+    padding: 5,
   },
-  backIcon: {
-    width: 24,
-    height: 24,
-    resizeMode: "contain",
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "600",
+  pickTitle: {
+    marginTop: 26,
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#1C274C",
     textAlign: "center",
-    marginBottom: 15,
-    color: "#143664",
-    lineHeight: 28,
   },
-  subtitle: {
-    fontSize: 16,
+  pickSubtitle: {
+    marginTop: 8,
+    fontSize: 14,
+    color: "#6b7280",
     textAlign: "center",
-    color: "#7D7D7D",
-    marginBottom: 30,
-    lineHeight: 22,
   },
-  topicGrid: {
+  chipsWrap: {
+    marginTop: 22,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    marginBottom: 30,
   },
-  topicButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F0F3FA",
+  chip: {
+    backgroundColor: "#EEF4FF",
     paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 25,
+    paddingHorizontal: 14,
+    borderRadius: 22,
     margin: 6,
   },
-  topicButtonSelected: {
+  chipActive: {
     backgroundColor: "#4A6FFF",
   },
-  topicText: {
-    fontSize: 14,
-    color: "#1C274C",
-    marginRight: 6,
-    fontWeight: "500",
-  },
-  topicTextSelected: {
-    color: "#fff",
+  chipText: {
+    fontSize: 13,
     fontWeight: "600",
+    color: "#143664",
+  },
+  chipTextActive: {
+    color: "#fff",
   },
   continueButton: {
-    backgroundColor: "#28A745",
-    paddingVertical: 15,
+    marginTop: 24,
+    backgroundColor: "#2ECC71",
+    paddingVertical: 14,
     borderRadius: 30,
     alignItems: "center",
-    marginTop: 10,
+    width: "100%",
+    maxWidth: 420,
+    alignSelf: "center",
   },
   continueText: {
     color: "#fff",
-    fontSize: 16,
     fontWeight: "600",
+    fontSize: 16,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 34,
+    paddingBottom: 15,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#143664",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F5F5F5",
+    marginHorizontal: 20,
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    height: 50,
+    marginBottom: 20,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 30,
+  },
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  card: {
+    width: "48%",
+    backgroundColor: "#F8FBFF",
+    borderRadius: 16,
+    marginBottom: 15,
+    overflow: "hidden",
+  },
+  cardImage: {
+    width: "100%",
+    height: 100,
+    resizeMode: "cover",
+  },
+  cardContent: {
+    padding: 12,
+  },
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#143664",
+    marginBottom: 4,
+    lineHeight: 18,
+  },
+  cardDesc: {
+    fontSize: 12,
+    color: "#7D7D7D",
+    marginBottom: 10,
+    lineHeight: 16,
+  },
+  tagContainer: {
+    alignSelf: "flex-start",
+    borderWidth: 1,
+    borderColor: "#28A745",
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginBottom: 12,
+  },
+  tagText: {
+    color: "#28A745",
+    fontSize: 10,
+    fontWeight: "600",
+  },
+  readBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "#E5E5E5",
+  },
+  readText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#143664",
+    marginRight: 4,
   },
 });
